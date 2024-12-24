@@ -289,8 +289,11 @@ class ThermalPrinterPlugin : FlutterPlugin, MethodCallHandler, PluginRegistry.Re
                 printRawData(raw, result)
             }
             call.method.equals("printBytes") -> {
-                val bytes: ByteArray? = call.argument<ByteArray>("bytes")
-                printBytes(bytes, result)
+                val byteArray: ByteArray? = call.argument<ByteArray>("bytes")
+                val byteList: ArrayList<Int>? = byteArray?.let {
+                    ArrayList(it.map { byte -> byte.toInt() })
+                }
+                printBytes(byteList, result)
             }
             else -> {
                 result.notImplemented()
